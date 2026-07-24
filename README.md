@@ -18,12 +18,12 @@ pip install deap matplotlib numpy
 ### Struktur File
 ```
 uas-metaheuristik-ga/
-├── dosen_scheduling.py   # chromosome, fitness, operator GA
-├── solve_dosen.py        # main loop + plotting
-├── data_semester_1_3.py  # data input (dosen, slot, MK, group)
-├── plot_konvergensi.jpg  # output plot dari run terakhir
-├── README.md             # file ini
-└── venv/                 # (opsional) virtualenv
+|-- dosen_scheduling.py   # chromosome, fitness, operator GA
+|-- solve_dosen.py        # main loop + plotting
+|-- data_semester_1_3.py  # data input (dosen, slot, MK, group)
+|-- plot_konvergensi.jpg  # output plot dari run terakhir
+|-- README.md             # file ini
+|-- venv/                 # (opsional) virtualenv
 ```
 
 ### Menjalankan
@@ -65,7 +65,7 @@ Hasil identik karena seed di-set sebelum semua random operations (DEAP `tools.in
 | POPULATION_SIZE | 300 | 300 | cukup besar untuk diversity, cukup kecil untuk kecepatan |
 | MAX_GENERATIONS | 600 | 600 | run awal gen ~200 sudah konvergen ke 0.96; 600 memberi buffer |
 | P_CROSSOVER | 0.9 | 0.9 | standar DEAP |
-| P_MUTATION | 0.1 | 0.2 | dinaikkan dari 0.1 → 0.2 karena chromosome 32-tuple butuh eksplorasi lebih banyak; mutation per-gen pakai indpb=0.05 |
+| P_MUTATION | 0.1 | 0.2 | dinaikkan dari 0.1 -> 0.2 karena chromosome 32-tuple butuh eksplorasi lebih banyak; mutation per-gen pakai indpb=0.05 |
 | TOURNAMENT_SIZE | 3 | 3 | balance selection pressure vs diversity |
 | ELITE_SIZE | 0 | 5 | tambah 5 elit untuk mencegah regresi best solution antar generasi |
 | Seleksi | Tournament | Tournament | parent tournament size 3, standar dan robust |
@@ -77,17 +77,17 @@ Hasil identik karena seed di-set sebelum semua random operations (DEAP `tools.in
 ## 4. Hasil Akhir
 
 **Best Cost yang dicapai**: **0.96**
-**Kategori**: A (Istimewa), Cost ≤ 15
+**Kategori**: A (Istimewa), Cost <= 15
 
 ### Ringkasan Constraint
 
 | Constraint | Status |
 |-----------|--------|
-| Qualification | ✅ 0 violation |
-| k1 = k2 (non-cotech) | ✅ 0 violation |
-| Dosen timing conflict | ✅ 0 violation |
-| Room-type match | ✅ 0 violation |
-| Room overlap | ✅ 0 violation |
+| Qualification | OK 0 violation |
+| k1 = k2 (non-cotech) | OK 0 violation |
+| Dosen timing conflict | OK 0 violation |
+| Room-type match | OK 0 violation |
+| Room overlap | OK 0 violation |
 
 ### Distribusi Beban SKS per Dosen
 
@@ -126,7 +126,7 @@ Dari hasil:
 - **Vian** mengajar "Pengantar Teknologi Informasi (PTI) k2" di **Rabu 12:40 sampai 13:29, RK1**
 - **Satria** mengajar "Elektronika Dasar k1" di **Rabu 12:40 sampai 13:29, RK2**
 
-Dosen berbeda, ruangan berbeda, slot identik → kelas paralel valid. GA secara natural menemukan pola paralel karena k1/k2 dua-duanya harus qualified untuk dosen yang sama atau berbeda (co-teach case), dan slot+room constraint mendorong assignment paralel di lokasi berbeda.
+Dosen berbeda, ruangan berbeda, slot identik -> kelas paralel valid. GA secara natural menemukan pola paralel karena k1/k2 dua-duanya harus qualified untuk dosen yang sama atau berbeda (co-teach case), dan slot+room constraint mendorong assignment paralel di lokasi berbeda.
 
 ### d. Apakah distribusi SKS adil?
 
@@ -143,4 +143,4 @@ Tidak. GA bersifat stokastik: pilihan parent untuk crossover, lokasi mutasi, dan
 - **Cost 0.96** dimungkinkan karena soft constraint variance 0.96 adalah lower bound dari distribusi MK 3 SKS yang tidak bisa dipisah rata. Cost 0 (perfect) tidak mungkin tanpa menambah constraint baru atau mengubah data.
 - **Library**: terbatas pada `random`, `deap`, `matplotlib`, `numpy` sesuai soal.
 - **Constraint logic (getCost)**: tidak dilemahkan atau dihapus. Semua 7 constraint sesuai TABEL-1 diimplementasikan penuh.
-- **Plot**: `plot_konvergensi.jpg` 1500×900 px, warna biru (best) + merah putus-putus (avg), sesuai contoh di soal.
+- **Plot**: `plot_konvergensi.jpg` 1500x900 px, warna biru (best) + merah putus-putus (avg), sesuai contoh di soal.
