@@ -1,5 +1,5 @@
 """
-Dosen Scheduling — GA Solver
+Dosen Scheduling: GA Solver
 ============================
 
 Run: python solve_dosen.py
@@ -105,7 +105,7 @@ def run_ga():
         elites = tools.selBest(pop, k=ELITE_SIZE)
         elites = [toolbox.clone(e) for e in elites]
 
-        # Select next gen (excluding elites — we'll add them back)
+        # Select next gen (excluding elites, we'll add them back)
         offspring = toolbox.select(pop, len(pop) - ELITE_SIZE)
         offspring = [toolbox.clone(o) for o in offspring]
 
@@ -153,13 +153,13 @@ def plot_convergence(logbook, path="plot_konvergensi.jpg"):
     plt.plot(gen, avg, "r--", linewidth=1.5, label="Average Fitness")
     plt.xlabel("Generation")
     plt.ylabel("Cost")
-    plt.title("Konvergensi GA — Dosen Scheduling")
+    plt.title("Konvergensi GA: Dosen Scheduling")
     plt.legend(loc="upper right")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig(path, dpi=150, format="jpg")
     plt.close()
-    print(f"\n📊 Plot saved to: {path}")
+    print(f"\nPlot saved to: {path}")
 
 
 def analyze(best):
@@ -192,10 +192,10 @@ def analyze(best):
         sr_count[(e["slot_id"], e["room"])] = sr_count.get((e["slot_id"], e["room"]), 0) + 1
     max_overlap = max(sr_count.values())
     if max_overlap <= 1:
-        print("  ✅ No room conflicts (each slot+room has ≤1 class)")
+        print("  OK No room conflicts (each slot+room has <=1 class)")
     else:
         conflicts = [k for k, v in sr_count.items() if v > 1]
-        print(f"  ❌ {len(conflicts)} conflict(s):")
+        print(f"  X {len(conflicts)} conflict(s):")
         for k in conflicts[:5]:
             print(f"      {k}: {sr_count[k]} classes")
 
@@ -220,7 +220,7 @@ def analyze(best):
     for e in decoded:
         if e["dosen_name"] not in MK_BY_ID[e["mk_id"]]["dosen_qualified"]:
             qual_viol += 1
-    print(f"  {'✅' if qual_viol == 0 else '❌'} Qualification: {qual_viol} violation(s)")
+    print(f"  {'OK' if qual_viol == 0 else 'X'} Qualification: {qual_viol} violation(s)")
 
     # 2. k1=k2 non-cotech
     from data_semester_1_3 import mk_groups
@@ -233,7 +233,7 @@ def analyze(best):
             names.add(decoded[i]["dosen_name"])
         if len(names) > 1:
             k1k2_viol += 1
-    print(f"  {'✅' if k1k2_viol == 0 else '❌'} k1=k2 (non-cotech): {k1k2_viol} violation(s)")
+    print(f"  {'OK' if k1k2_viol == 0 else 'X'} k1=k2 (non-cotech): {k1k2_viol} violation(s)")
 
     # 3. dosen conflict
     pair_count = {}
@@ -241,7 +241,7 @@ def analyze(best):
         key = (e["dosen_name"], e["slot_id"])
         pair_count[key] = pair_count.get(key, 0) + 1
     dosen_viol = sum(c - 1 for c in pair_count.values() if c > 1)
-    print(f"  {'✅' if dosen_viol == 0 else '❌'} Dosen timing conflict: {dosen_viol} violation(s)")
+    print(f"  {'OK' if dosen_viol == 0 else 'X'} Dosen timing conflict: {dosen_viol} violation(s)")
 
     # 4. room type
     rt_viol = 0
@@ -250,11 +250,11 @@ def analyze(best):
         room_id = {"RK1": 0, "RK2": 1, "LAB": 2}[e["room"]]
         if room_id not in ROOM_TYPE_OK[mk["type"]]:
             rt_viol += 1
-    print(f"  {'✅' if rt_viol == 0 else '❌'} Room-type match: {rt_viol} violation(s)")
+    print(f"  {'OK' if rt_viol == 0 else 'X'} Room-type match: {rt_viol} violation(s)")
 
     # 5. room overlap
     ro_viol = max(0, max_overlap - 1) if max_overlap > 1 else 0
-    print(f"  {'✅' if ro_viol == 0 else '❌'} Room overlap: {ro_viol} violation(s)")
+    print(f"  {'OK' if ro_viol == 0 else 'X'} Room overlap: {ro_viol} violation(s)")
 
     print("\n" + "=" * 80)
     print(f"FINAL COST: {cost:.2f}")
@@ -279,7 +279,7 @@ def main():
     elapsed = time.time() - t0
 
     print("-" * 80)
-    print(f"\n✅ GA Finished in {elapsed:.1f}s")
+    print(f"\nGA Finished in {elapsed:.1f}s")
     print(f"Best Cost Found: {best.fitness.values[0]:.2f}")
 
     analyze(best)

@@ -1,5 +1,5 @@
 """
-Dosen Scheduling — Chromosome, Fitness, Genetic Operators
+Dosen Scheduling: Chromosome, Fitness, Genetic Operators
 =========================================================
 
 Problem: jadwalkan 32 mata kuliah (20 Sem1 + 12 Sem3) ke

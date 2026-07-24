@@ -17,7 +17,7 @@ dosen_data = {
 
 # ===== 2. TIME SLOTS =====
 # SAMA dengan Semester 2 schedule!
-# 40 time slots / minggu (5 hari × 8 slots/hari)
+# 40 time slots / minggu (5 hari x 8 slots/hari)
 # Ruangan: RK1, RK2 (Ruang Kuliah) dan LAB (Lab Robotik)
 
 time_slots = [
